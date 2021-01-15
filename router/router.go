@@ -22,6 +22,7 @@ func init() {
 
 	// 模块路由地址
 	loginRoute("login")
+	userRoute("user")
 
 	router.Run(Run.Port)
 }
@@ -30,4 +31,10 @@ func init() {
 func loginRoute(name string) {
 	route := router.Group(name)
 	route.Any("login", login.UserLogin)
+}
+
+func userRoute(name string) {
+	route := router.Group(name)
+	route.Use(middleware.JWTAuth())
+	route.Any("user", user.UserList)
 }
